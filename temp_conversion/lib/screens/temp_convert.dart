@@ -13,9 +13,12 @@ class _TempConverterScreenState extends State<TempConverterScreen> {
   // Controller for the temperature input field
   final TextEditingController tempController = TextEditingController();
   String convertedValue = '';
+  // Keeps track of the conversion history strings
   final List<String> history = [];
 
+  // Called when user presses the convert button to calculate the conversion
   void _convert() {
+    // Input validation that shows message if input is empty
     final input = tempController.text.trim();
     if (input.isEmpty) {
       _showSnackBar('Please enter a temperature');
@@ -31,6 +34,7 @@ class _TempConverterScreenState extends State<TempConverterScreen> {
     double result;
     String entry;
 
+    // Perform conversion depending on selected option
     if (isFtoC) {
       result = (temp - 32) * 5 / 9;
       entry = 'F to C: ${temp.toStringAsFixed(1)}  =>  ${result.toStringAsFixed(2)}';
@@ -46,11 +50,25 @@ class _TempConverterScreenState extends State<TempConverterScreen> {
   }
 
 
+  /// Shows a brief message at the bottom of the screen, disappearing after 2 seconds
+  ///
+  /// This is a utility method to display a brief message at the bottom of the
+  /// screen. The message is wrapped in a [SnackBar], and the
+  /// [ScaffoldMessenger.of] is used to show the message. The duration of the
+  /// message is set to 2 seconds, so the message will disappear after that time.
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message), duration: const Duration(seconds: 2)));
   }
 
+  @override
+  void dispose() {
+    // Clean up controller when widget is disposed to avoid memory leaks
+    tempController.dispose();
+    super.dispose();
+  }
+
+  // Build for row of radio buttons for conversion selection
   Widget _buildConversionSelection() {
     return Card(
       elevation: 3,
@@ -96,6 +114,7 @@ class _TempConverterScreenState extends State<TempConverterScreen> {
     );
   }
 
+  // Build for row of input field and conversion result
   Widget _buildConversionRow() {
     return Card(
       elevation: 3,
@@ -155,6 +174,7 @@ class _TempConverterScreenState extends State<TempConverterScreen> {
     );
   }
 
+  // Build for scrollable history list
   Widget _buildHistoryList() {
     return Card(
       elevation: 3,

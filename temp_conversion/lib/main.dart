@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:temp_conversion/screens/temp_convert.dart';
 
+
+
+// The  entry point of the application with `TempConverterApp` as the root widget.
 void main() {
   runApp(const TempConverterApp());
 }
